@@ -1,0 +1,74 @@
+# Arquivo:      docker-compose.yml
+# Diretório:    /
+# Responsável:  Mex — GOS3 · MEx Energia
+# Versão:       3.0.0
+# Data:         2026-07-06
+# Assinatura:   GOS3 · Gang of Seven Senior Scrum Team
+# Glossário:    ver docs/GLOSSARIO.md
+#
+# Limites conforme CONSTRAINTS.md: soma dos serviços <= 1 CPU e 350MB,
+# rede em modo bridge, pelo menos 2 instâncias de API + 1 load balancer,
+# aplicação exposta na porta 9999.
+#
+# v3.0.0: volume "sockets" compartilhado entre lb/api1/api2 — o LB entrega
+# fds de cliente aos workers via SCM_RIGHTS sobre sockets Unix nesse
+# volume (ver lb/lb.c, api/src/main.rs). resources/ continua montado
+# separadamente com o dataset real — rodar scripts/download_dataset.sh
+# ANTES de subir a stack.
+version: "3.8"
+
+networks:
+  rinha:
+    driver: bridge
+
+volumes:
+  sockets: {}
+
+services:
+  lb:
+    build: ./lb
+    networks: [rinha]
+    ports:
+      - "9999:9999"
+    environment:
+      LB_WORKER_SOCKETS: "/sockets/api1.sock,/sockets/api2.sock"
+    volumes:
+      - sockets:/sockets
+    depends_on:
+      - api1
+      - api2
+    deploy:
+      resources:
+        limits:
+          cpus: "0.15"
+          memory: "30MB"
+
+  api1:
+    build: ./api
+    networks: [rinha]
+    environment:
+      CONTROL_SOCKET: "/sockets/api1.sock"
+    volumes:
+      - ./resources:/app/resources:ro
+      - sockets:/sockets
+    deploy:
+      resources:
+        limits:
+          cpus: "0.4"
+          memory: "160MB"
+
+  api2:
+    build: ./api
+    networks: [rinha]
+    environment:
+      CONTROL_SOCKET: "/sockets/api2.sock"
+    volumes:
+      - ./resources:/app/resources:ro
+      - sockets:/sockets
+    deploy:
+      resources:
+        limits:
+          cpus: "0.4"
+          memory: "160MB"
+
+# Total: ~0.95 CPU / 350MB — ajustar conforme medição real do harness.

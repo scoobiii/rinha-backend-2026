@@ -1,0 +1,29 @@
+# Arquivo:      Cargo.toml
+# Diretório:    /api
+# Responsável:  Mex — GOS3 · MEx Energia
+# Versão:       3.0.0
+# Data:         2026-07-06
+# Assinatura:   GOS3 · Gang of Seven Senior Scrum Team
+# Glossário:    ver docs/GLOSSARIO.md
+
+[package]
+name = "fraud-score-api"
+version = "0.3.0"
+edition = "2021"
+
+# v2.0.0: saímos do "zero dependências" para carregar e consultar o dataset
+# REAL (ver CONSTRAINTS.md, Regra #0 — nunca mock/stub/placeholder).
+# v3.0.0: + libc, necessária para epoll/SCM_RIGHTS (fd passing), que não
+# existem na std do Rust — fecha os gaps "epoll" e "scm_rights" do SWOT.
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+flate2 = "1"
+libc = "0.2"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
