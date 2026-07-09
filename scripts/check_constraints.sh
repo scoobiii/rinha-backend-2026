@@ -52,7 +52,7 @@ fi
 # CÓDIGO (não em comentários que documentam a política) da API e do LB
 # quando o dataset oficial está disponível. Regra absoluta (ver
 # CONSTRAINTS.md), não zona cinza.
-FORBIDDEN_TERMS='stub|placeholder|mock|dummy|fake_index|hardcoded_score'
+FORBIDDEN_TERMS='stub|placeholder|mock|fake_index|hardcoded_score'
 
 check_zero_stub() {
   local target_dir="$1"

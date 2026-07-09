@@ -33,7 +33,6 @@ pub fn dist_sq(a: &[f32; DIMS], b: &[f32; DIMS]) -> f32 {
     #[cfg(target_arch = "x86_64")]
     {
         if is_x86_feature_detected!("avx2") {
-            // Seguro: só entra aqui se a CPU realmente suporta AVX2.
             return unsafe { dist_sq_avx2(a, b) };
         }
     }
@@ -49,9 +48,6 @@ fn dist_sq_scalar(a: &[f32; DIMS], b: &[f32; DIMS]) -> f32 {
     sum
 }
 
-/// Implementação AVX2: processa 16 floats em dois registradores de 8 (256
-/// bits cada). Requer `target_feature = "avx2"` — só é chamada depois de
-/// `is_x86_feature_detected!("avx2")` confirmar suporte em runtime.
 #[cfg(target_arch = "x86_64")]
 #[target_feature(enable = "avx2")]
 unsafe fn dist_sq_avx2(a: &[f32; DIMS], b: &[f32; DIMS]) -> f32 {
@@ -70,7 +66,6 @@ unsafe fn dist_sq_avx2(a: &[f32; DIMS], b: &[f32; DIMS]) -> f32 {
 
     let sum = _mm256_add_ps(sq0, sq1);
 
-    // Horizontal sum dos 8 lanes de `sum` -> escalar.
     let hi = _mm256_extractf128_ps(sum, 1);
     let lo = _mm256_castps256_ps128(sum);
     let sum128 = _mm_add_ps(hi, lo);
@@ -92,6 +87,8 @@ mod tests {
         let b: [f32; DIMS] = [0.9, 0.1, 0.3, 0.2, 0.5, -1.0, -1.0, 0.8, 0.0, 0.4, 0.1, 0.3, 1.0, 0.0, 0.0, 0.0];
 
         let scalar = dist_sq_scalar(&a, &b);
+        assert!(scalar >= 0.0, "distância ao quadrado não pode ser negativa: {}", scalar);
+        assert!(scalar > 0.0, "vetores diferentes não podem ter distância zero");
 
         #[cfg(target_arch = "x86_64")]
         if is_x86_feature_detected!("avx2") {

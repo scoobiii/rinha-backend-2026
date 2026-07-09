@@ -1,0 +1,5 @@
+/api/target/
+/api/resources/
+/lb/lb
+/resources/references.json.gz
+/resources/example-references.json

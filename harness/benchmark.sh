@@ -24,7 +24,7 @@ command -v hey >/dev/null 2>&1 || {
   exit 1
 }
 
-payload='{"vector":[0.1,0.2,0.3,0.4,0.5],"k":5}'
+payload='{"transaction":{"amount":350.00,"installments":1,"requested_at":"2026-07-06T14:30:00Z","card_present":true,"is_online":false},"customer":{"avg_amount":300.00,"tx_count_24h":3,"known_merchants":["merchant-001"]},"merchant":{"id":"merchant-001","mcc":"5411","avg_amount":250.00},"last_transaction":{"minutes_since":120,"km_from_current":2.5}}'
 
 echo "== benchmark local: ${REQUESTS} requests, concorrência ${CONCURRENCY} =="
 
