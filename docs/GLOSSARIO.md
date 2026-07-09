@@ -37,7 +37,7 @@ Referenciado por todos os arquivos deste repositório (`Glossário: ver docs/GLO
 | **Regra #0 (CONSTRAINTS.md)** | Proibição absoluta de mock/stub/placeholder/score fixo no cálculo de fraude em código de submissão — considerado fraude, não otimização arriscada, porque o dataset real é fornecido exatamente para isso. |
 | **`GET /ready`** | Endpoint de health check do contrato oficial da Rinha 2026 (não é `/health`). |
 | **`score_p99` / `score_det`** | Os dois componentes da pontuação final (cada um de -3000 a +3000): `score_p99` mede latência, `score_det` mede qualidade de detecção (taxa de erro ponderada de falsos positivos/negativos/erros HTTP). |
-| **references.json.gz** | Dataset oficial de 100.000 vetores rotulados (`fraud`/`legit`) fornecido pela própria Rinha para treino/consulta da busca vetorial. |
+| **references.json.gz** | Dataset oficial de 1.000.000 vetores rotulados (`fraud`/`legit`) fornecido pela própria Rinha para treino/consulta da busca vetorial. |
 | **kd-tree particionado** | Estrutura de dados que organiza o dataset por planos de corte em cada dimensão, permitindo KNN com poda (não visita todos os pontos) em vez de força bruta O(n). |
 | **Control socket** | Socket Unix onde o worker (API) fica escutando a conexão do load balancer, por onde chegam os fds de cliente via SCM_RIGHTS. |
 | **Fallback escalar (SIMD)** | Caminho de código sem instruções vetoriais, usado quando a CPU não suporta AVX2 (ex: ARM64) ou como implementação de referência para validar o resultado do caminho AVX2. |

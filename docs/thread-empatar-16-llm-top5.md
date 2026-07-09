@@ -41,7 +41,7 @@ se o ganho dos outros 15 é real ou é ruído do ambiente de teste.
 6/
 Regra #0, não-negociável: nenhum agente pode usar mock/stub/score fixo
 "pra passar no teste mais rápido". Isso não é atalho, é fraude — a Rinha
-te dá o dataset REAL (100k vetores rotulados) exatamente pra você
+te dá o dataset REAL (1M vetores rotulados) exatamente pra você
 implementar a busca de verdade. Um score fixo nem entra na disputa.
 
 7/

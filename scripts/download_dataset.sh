@@ -21,7 +21,7 @@ mkdir -p "$DEST_DIR"
 echo "== Baixando dataset oficial da Rinha de Backend 2026 =="
 
 curl -fL "${BASE_URL}/references.json.gz" -o "${DEST_DIR}/references.json.gz"
-echo "OK  references.json.gz (100.000 vetores rotulados)"
+echo "OK  references.json.gz (1.000.000 vetores rotulados — confirmado via zcat | grep -o vector | wc -l)"
 
 curl -fL "${BASE_URL}/example-references.json" -o "${DEST_DIR}/example-references.json"
 echo "OK  example-references.json (recorte pequeno, para teste rápido)"

@@ -32,7 +32,7 @@ GitHub Actions como cross-compiler (ver `.github/workflows/`).
 bash scripts/download_dataset.sh
 ```
 
-Baixa `resources/references.json.gz` (100.000 vetores rotulados) e
+Baixa `resources/references.json.gz` (1.000.000 vetores rotulados) e
 `resources/example-references.json` do repositório oficial, e confere
 `mcc_risk.json`/`normalization.json` locais contra o upstream. Sem isso, o
 build passa mas o container derruba no startup (comportamento esperado —

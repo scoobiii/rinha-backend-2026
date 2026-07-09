@@ -42,7 +42,7 @@ A API se recusa a iniciar sem o dataset oficial da Rinha (ver
 bash scripts/download_dataset.sh
 ```
 
-Isso popula `resources/references.json.gz` (100.000 vetores rotulados) e
+Isso popula `resources/references.json.gz` (1.000.000 vetores rotulados) e
 `resources/example-references.json`, além de conferir `mcc_risk.json` e
 `normalization.json` contra a fonte oficial. Ver `resources/README.md`.
 
